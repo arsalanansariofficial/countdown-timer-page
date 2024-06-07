@@ -6,13 +6,24 @@ const hours = document.querySelector('#hours');
 const minutes = document.querySelector('#minutes');
 const seconds = document.querySelector('#seconds');
 
+const days_container = document.querySelector('#days-container');
+const hours_container = document.querySelector('#hours-container');
+const minutes_container = document.querySelector('#minutes-container');
+
+function animate(element) {
+  update_class(element, 'flip-vertical');
+  setTimeout(function () {
+    update_class(element, 'flip-vertical', false);
+  }, 1000);
+}
+
 function update_class(element, class_name, add = true) {
   if (add) return element.classList.add(class_name);
   element.classList.remove(class_name);
 }
 
 function prefix(value, max_length, prefix) {
-  return new String(value).padStart(max_length, prefix);
+  return Number(new String(value).padStart(max_length, prefix));
 }
 
 function apply_interval(launch_date, interval) {
@@ -23,6 +34,10 @@ function apply_interval(launch_date, interval) {
   hours.textContent = time_remaining.hours_remaining;
   minutes.textContent = time_remaining.minutes_remaining;
   seconds.textContent = time_remaining.seconds_remaining;
+
+  if (!time_remaining.seconds_remaining) animate(minutes_container);
+  if (!time_remaining.minutes_remaining) animate(hours_container);
+  if (!time_remaining.hours_remaining) animate(days_container);
 }
 
 function get_time_remaining(launch_date) {
@@ -50,7 +65,7 @@ function get_time_remaining(launch_date) {
 }
 
 function main() {
-  let interval;
+  let interval, extra_seconds;
   const launch_day = 9;
   const launch_date = new Date();
   launch_date.setDate(launch_date.getDate() + launch_day);

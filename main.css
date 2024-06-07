@@ -171,3 +171,16 @@ footer {
     cursor: pointer;
   }
 }
+
+.flip-vertical {
+  animation: flip 1s ease-in-out;
+}
+
+@keyframes flip {
+  from {
+    transform: rotateX(0);
+  }
+  to {
+    transform: rotateX(360deg);
+  }
+}
